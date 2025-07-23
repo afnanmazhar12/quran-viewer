@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quran Surah Display</title>
+  <link rel="icon" type="image/png" href="image copy 7.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Quran Surah Viewer</h1>
+    <input type="text" id="sb" placeholder="Enter Surah number" />
+    <button class="but">Get Surah</button>
+    <div class="box" id="surahContent"></div>
+    <div class="audio-controls">
+      <button id="playBtn" disabled>Play</button>
+      <button id="pauseBtn" disabled>Pause</button>
+      <input type="range" id="slider" min="0" max="100" value="0">
+      <button id="prevBtn" disabled>Previous</button>
+      <button id="nextBtn" disabled>Next</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

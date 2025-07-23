@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Get Recipe Information</h1>
+        <input type="text" id="recipe-input" placeholder="Enter recipe name" value="italian wedding soup">
+        <button onclick="getRecipeInfo()">Search</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const apiKey = 'wiHOzKIb/sbe8C1/TJ+qCg==GXH7FlibWG8qr5NA';
+
+        function getRecipeInfo() {
+            const recipeName = document.getElementById('recipe-input').value;
+            fetch(`https://api.api-ninjas.com/v1/recipe?query=${recipeName}`, {
+                headers: {
+                    'X-Api-Key': apiKey
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '';
+                console.log(data); // Log the data to inspect the structure
+
+                if (data.length > 0) {
+                    const recipeData = data[0];
+                    const ingredients = Array.isArray(recipeData.ingredients) ? recipeData.ingredients.join(', ') : recipeData.ingredients;
+
+                    resultDiv.innerHTML = `
+                        <h2>${recipeData.title}</h2>
+                        <p><strong>Ingredients:</strong> ${ingredients}</p>
+                        <p><strong>Instructions:</strong> ${recipeData.instructions}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p>Recipe not found.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>
